@@ -9,6 +9,7 @@ import jakarta.annotation.Generated;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,4 +33,11 @@ public class Product {
     private Date releaseDate;
     private boolean available;
     private int quantity;
+
+    
+    private String imageName; // Store the filename of the product image
+    private String imageType; // Store the MIME type of the image (e.g., "image/jpeg")
+    
+    @Lob // JPA annotation to indicate that this field should be treated as a large object (BLOB)
+    private byte[] imageData; // Store the binary data of the image
 }

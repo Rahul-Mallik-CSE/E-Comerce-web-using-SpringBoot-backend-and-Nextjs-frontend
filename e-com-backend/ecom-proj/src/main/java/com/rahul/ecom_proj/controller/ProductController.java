@@ -8,8 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.rahul.ecom_proj.model.Product;
 import com.rahul.ecom_proj.service.ProductService;
@@ -27,11 +31,13 @@ public class ProductController {
         return "Welcome to the E-commerce API!";
     }
 
+    //get all products
     @GetMapping("/products")
     public ResponseEntity<List<Product>> getAllProducts() {
         return new ResponseEntity<>(service.getAllProducts(), HttpStatus.OK);
     }
 
+    //get product by id
     @GetMapping("/product/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable int id) {
         Product product = service.getProductById(id);
@@ -41,5 +47,18 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         
+    }
+
+
+    //create product
+    @PostMapping("/product")
+    public ResponseEntity<?> addProduct(@RequestPart Product  product , @RequestPart MultipartFile imageFile) {
+       try{
+        Product product1 = service.addProduct(product, imageFile);
+        return new ResponseEntity<>(product1, HttpStatus.CREATED);
+       }
+       catch(Exception e){
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+       }
     }
 } 
