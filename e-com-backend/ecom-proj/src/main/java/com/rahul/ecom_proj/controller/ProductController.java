@@ -61,4 +61,12 @@ public class ProductController {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
        }
     }
+
+    //get image by product id
+    @GetMapping("/product/{productId}/image")
+    public ResponseEntity<byte[]> getImageByProductId(@PathVariable int productId){
+        Product product = service.getProductById(productId);
+        byte[] imageData = product.getImageData();
+        return ResponseEntity.ok().header("Content-Type", product.getImageType()).body(imageData);
+    }
 } 

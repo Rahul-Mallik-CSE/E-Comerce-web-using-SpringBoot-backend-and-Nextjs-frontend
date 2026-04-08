@@ -22,15 +22,15 @@ public class Product {
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY) // Auto-generates the ID value
     private Integer id;
     private String name;
-    private String desc;
+    private String description;
     private String brand;
     private BigDecimal price;
     private String category;
 
     @JsonFormat( shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd" ) // Format the date when serializing to JSON
     private Date releaseDate;
-    private boolean available;
-    private int quantity;
+    private Boolean productAvailable;
+    private Integer stockQuantity;
 
     
     private String imageName; // Store the filename of the product image
