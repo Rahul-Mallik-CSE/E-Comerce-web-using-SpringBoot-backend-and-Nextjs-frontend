@@ -1,5 +1,6 @@
 package com.rahul.ecom_proj.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,5 +69,24 @@ public class ProductController {
         Product product = service.getProductById(productId);
         byte[] imageData = product.getImageData();
         return ResponseEntity.ok().header("Content-Type", product.getImageType()).body(imageData);
+    }
+
+    //update product
+    @PostMapping("/product/{id}")
+    public ResponseEntity<String> updateProduct(@PathVariable int id , @RequestBody Product product ,@RequestPart MultipartFile imageFile   ){
+        
+        Product product1 = null;
+        try{
+            product1 = service.updateProduct(id, product, imageFile);
+         }
+         catch(IOException e){
+          return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+         }
+         if(product1 != null){
+          return new ResponseEntity<>("Product updated successfully", HttpStatus.OK);
+         }
+         else{
+          return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
+         }
     }
 } 
